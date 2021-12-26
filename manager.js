@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 09:11:55
+ * @Last Modified time: 2021-12-26 09:32:39
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
@@ -71,13 +71,16 @@ export async function main(ns) {
             breakPorts(servers[i]);
             await ns.nuke(servers[i]);
 
-            await ns.scp("hack.script", servers[i]);
+            await ns.scp("hack.js", servers[i]);
 
             ram = await ns.getServerMaxRam(servers[i]);
-            cost = await ns.getScriptRam("hack.script");
+            cost = await ns.getScriptRam("hack.js");
             threads = parseInt((ram - usedram) / cost)
-            await ns.exec("hack.script", servers[i], threads, servers[i]);
+            await ns.exec("hack.js", servers[i], threads, servers[i]);
 
+            if (threads > 0) {
+                await ns.exec("hack.script", servers[i], threads, servers[i]);
+            }
 
             i++;
         }
