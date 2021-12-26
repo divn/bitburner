@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 09:57:57
+ * @Last Modified time: 2021-12-26 10:04:06
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
@@ -75,6 +75,7 @@ export async function main(ns) {
     let cost = 0
     let sleeptime = 30000
     let i = 0;
+    let programcount = countPrograms()
 
     while (i < servers.length) {
 
@@ -84,13 +85,15 @@ export async function main(ns) {
         }
 
         if (await ns.getHackingLevel() >= await ns.getServerRequiredHackingLevel(servers[i])) {
-            while (countPrograms() < await ns.getServerNumPortsRequired(servers[i])) {
+            while (programcount < await ns.getServerNumPortsRequired(servers[i])) {
                 ns.tprint('Skipped ' + servers[i] + ' Not enough port hackers')
                 i++
             }
 
-            breakPorts(servers[i]);
-            await ns.nuke(servers[i]);
+            if (!ns.hasRootAccess) {
+                await breakPorts(servers[i]);
+                await ns.nuke(servers[i]);
+            }
 
             await ns.scp("hack.js", servers[i]);
 
