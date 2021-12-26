@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 10:43:45
+ * @Last Modified time: 2021-12-26 10:45:38
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
@@ -79,16 +79,18 @@ export async function main(ns) {
         let i = 0;
         let programcount = countPrograms()
 
-        while (i <= servers.length) {
+        while (i < servers.length) {
 
             if (servers[i] === "home") {
                 ns.tprint("Skipped home")
+                i++
                 continue
             }
 
             if (await ns.getHackingLevel() >= await ns.getServerRequiredHackingLevel(servers[i])) {
                 while (programcount < await ns.getServerNumPortsRequired(servers[i])) {
                     ns.tprint('Skipped ' + servers[i] + ' Not enough port hackers')
+                    i++
                     continue
                 }
 
@@ -100,6 +102,7 @@ export async function main(ns) {
 
                 if (ns.getServerMaxMoney(servers[i]) <= 0) {
                     ns.tprint("No money on " + servers[i])
+                    i++
                     continue
                 }
 
@@ -110,6 +113,7 @@ export async function main(ns) {
                 if (threads <= 0) {
                     await ns.exec("hack.js", servers[i], threads, servers[i]);
                     ns.tprint("Not enough RAM to run hack.js on " + servers[i])
+                    i++
                     continue
                 }
 
@@ -117,11 +121,13 @@ export async function main(ns) {
                 ns.tprint("Running hack.js on " + servers[i])
                 await ns.exec("hack.js", servers[i], threads, servers[i]);
 
-                i++;
+                i++
+                continue
             }
             else {
                 ns.tprint('Skipped ' + servers[i] + ' Not enough hacking')
                 i++
+                continue
             }
         }
         //Sleep for 30min and run again
