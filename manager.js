@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 10:04:06
+ * @Last Modified time: 2021-12-26 10:08:24
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
@@ -93,6 +93,12 @@ export async function main(ns) {
             if (!ns.hasRootAccess) {
                 await breakPorts(servers[i]);
                 await ns.nuke(servers[i]);
+                ns.tprint("Nuked " + servers[i])
+            }
+
+            if (ns.getServerMaxMoney <= 0) {
+                ns.tprint("No money on " + servers[i])
+                i++
             }
 
             await ns.scp("hack.js", servers[i]);
@@ -100,10 +106,12 @@ export async function main(ns) {
             ram = await ns.getServerMaxRam(servers[i]);
             cost = await ns.getScriptRam("hack.js");
             threads = parseInt((ram - usedram) / cost)
+            ns.tprint("Running hack.js on " + servers[i])
             await ns.exec("hack.js", servers[i], threads, servers[i]);
 
             if (threads > 0) {
                 await ns.exec("hack.js", servers[i], threads, servers[i]);
+                ns.tprint("Not enough RAM to run hack.js on " + servers[i])
             }
 
             i++;
