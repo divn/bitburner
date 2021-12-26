@@ -1,8 +1,8 @@
 /**
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
- * @Last Modified by:   Your name
- * @Last Modified time: 2021-12-26 09:01:19
+ * @Last Modified by:   Juuso Takala
+ * @Last Modified time: 2021-12-26 09:11:55
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {

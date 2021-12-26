@@ -1,13 +1,13 @@
 /**
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:59:16
- * @Last Modified by:   Your name
- * @Last Modified time: 2021-12-26 09:00:27
+ * @Last Modified by:   Juuso Takala
+ * @Last Modified time: 2021-12-26 09:11:44
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
 
-    /*
+    /* 
     ns.hacknet-auto.script for Bitburner v0.47.2
     Winners don't use copyright
     

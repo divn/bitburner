@@ -2,9 +2,10 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:56:28
  * @Last Modified by:   Your name
- * @Last Modified time: 2021-12-26 09:01:04
+ * @Last Modified time: 2021-12-26 09:07:35
  */
 /**
+ * https://github.com/danielyxie/bitburner/blob/dev/src/ScriptEditor/NetscriptDefinitions.d.ts
  * @public
  */
  interface Player {
