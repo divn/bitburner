@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 20:19:13
+ * @Last Modified time: 2021-12-26 22:40:22
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
@@ -37,7 +37,7 @@ export async function main(ns) {
             let servervMinSec = ns.getServerMinSecurityLevel(server);
             let servervGrowthRate = ns.getServerGrowth(server);
             let serverHackTime = ns.getHackTime(server);
-            let serverScore = (100 - servervMinSec) * servervMaxMoney * servervGrowthRate / serverHackTime;
+            let serverScore = (100 - servervMinSec) * (servervMaxMoney * servervMaxMoney) * servervGrowthRate / serverHackTime / 1000000;
             if (targetserverscore < serverScore && ns.hasRootAccess(server)) {
                 ns.tprint('old best server ' + targetserver + " new best " + server)
                 targetserver = server
@@ -105,7 +105,7 @@ export async function main(ns) {
             }
 
             if (await ns.getHackingLevel() >= await ns.getServerRequiredHackingLevel(servers[i])) {
-                if (programcount < await ns.getServerNumPortsRequired(servers[i])) {
+                if (programcount < await ns.getServerNumPortsRequired(servers[i]) && !ns.hasRootAccess(servers[i])) {
                     ns.tprint('Skipped ' + servers[i] + ' Not enough port hackers')
                     continue
                 }
@@ -127,9 +127,18 @@ export async function main(ns) {
                     continue
                 }
 
+                if (ns.isRunning("hack.js", servers[i], targetserver)) {
+                    ns.tprint("Hack already running with same args on " + servers[i])
+                    continue
+                }
+
+                if (ns.isRunning("hack.js")) {
+                    ns.scriptKill("hack.js", servers[i])
+                }
+
                 await ns.scp("hack.js", servers[i]);
-                ns.tprint("Running hack.js on " + servers[i])
                 await ns.exec("hack.js", servers[i], threads, targetserver);
+                ns.tprint("Running hack.js on " + servers[i] + " Target: " + targetserver)
                 continue
             }
             else {
@@ -139,7 +148,7 @@ export async function main(ns) {
         }
         //Sleep for 10min and run again
         timesrunned += 1;
-        ns.tprint("Runned " + timesrunned)
+        ns.tprint("Executed " + timesrunned + " times")
         await ns.sleep(600000)
     }
 }
