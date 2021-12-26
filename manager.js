@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 10:08:24
+ * @Last Modified time: 2021-12-26 10:10:09
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
@@ -96,7 +96,7 @@ export async function main(ns) {
                 ns.tprint("Nuked " + servers[i])
             }
 
-            if (ns.getServerMaxMoney <= 0) {
+            if (ns.getServerMaxMoney(servers[i]) <= 0) {
                 ns.tprint("No money on " + servers[i])
                 i++
             }
