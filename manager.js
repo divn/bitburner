@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 12:45:19
+ * @Last Modified time: 2021-12-26 13:16:00
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
@@ -116,11 +116,6 @@ export async function main(ns) {
                     }
                     await ns.nuke(servers[i]);
                     ns.tprint("Nuked " + servers[i])
-                }
-
-                if (ns.getServerMaxMoney(servers[i]) <= 0) {
-                    ns.tprint("No money on " + servers[i])
-                    continue
                 }
 
                 ram = await ns.getServerMaxRam(servers[i]);
