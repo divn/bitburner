@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 12:08:21
+ * @Last Modified time: 2021-12-26 12:45:19
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
@@ -10,20 +10,40 @@ export async function main(ns) {
         let timesrunned = 0;
         let servers = [];
         let serverlist = ["home"]
+        let targetserver = ''
+        let targetserverscore = 0
 
         for (let i = 0; i < serverlist.length; ++i) {
 
             let hostname = serverlist[i];
             servers.push(hostname)
+            bestServer(hostname)
 
             let newScan = ns.scan(hostname);
             for (let j = 0; j < newScan.length; j++) {
                 if (serverlist.indexOf(newScan[j]) == -1) {
                     serverlist.push(newScan[j]);
+                    bestServer(hostname)
                 }
             }
+
         }
         ns.tprint("Network mapped.");
+        ns.tprint('target server is ' + targetserver + ' with score ' + targetserverscore)
+
+        function bestServer(server) {
+
+            let servervMaxMoney = ns.getServerMaxMoney(server);
+            let servervMinSec = ns.getServerMinSecurityLevel(server);
+            let servervGrowthRate = ns.getServerGrowth(server);
+            let serverHackTime = ns.getHackTime(server);
+            let serverScore = (100 - servervMinSec) * servervMaxMoney * servervGrowthRate / serverHackTime;
+            if (targetserverscore < serverScore && ns.hasRootAccess(server)) {
+                ns.tprint('old best server ' + targetserver + " new best " + server)
+                targetserver = server
+                targetserverscore = serverScore
+            }
+        }
 
         function countPrograms() {
             var count = 0;
@@ -48,7 +68,6 @@ export async function main(ns) {
             return count;
         }
 
-        // try to open every port we can
         function breakPorts(hostname) {
             if (ns.fileExists("BruteSSH.exe", "home")) {
                 ns.tprint("Using BruteSSH.exe on" + hostname)
@@ -109,14 +128,13 @@ export async function main(ns) {
                 threads = parseInt((ram - usedram) / cost)
 
                 if (threads <= 0) {
-                    await ns.exec("hack.js", servers[i], threads, servers[i]);
                     ns.tprint("Not enough RAM to run hack.js on " + servers[i])
                     continue
                 }
 
                 await ns.scp("hack.js", servers[i]);
                 ns.tprint("Running hack.js on " + servers[i])
-                await ns.exec("hack.js", servers[i], threads, servers[i]);
+                await ns.exec("hack.js", servers[i], threads, targetserver);
                 continue
             }
             else {
