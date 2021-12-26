@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 09:32:39
+ * @Last Modified time: 2021-12-26 09:36:56
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
@@ -79,7 +79,7 @@ export async function main(ns) {
             await ns.exec("hack.js", servers[i], threads, servers[i]);
 
             if (threads > 0) {
-                await ns.exec("hack.script", servers[i], threads, servers[i]);
+                await ns.exec("hack.js", servers[i], threads, servers[i]);
             }
 
             i++;
