@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 10:11:06
+ * @Last Modified time: 2021-12-26 10:11:24
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
@@ -109,7 +109,7 @@ export async function main(ns) {
             ns.tprint("Running hack.js on " + servers[i])
             await ns.exec("hack.js", servers[i], threads, servers[i]);
 
-            if (threads < 0) {
+            if (threads <= 0) {
                 await ns.exec("hack.js", servers[i], threads, servers[i]);
                 ns.tprint("Not enough RAM to run hack.js on " + servers[i])
             }
