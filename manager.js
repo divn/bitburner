@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 11:05:28
+ * @Last Modified time: 2021-12-26 12:08:21
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
@@ -91,8 +91,10 @@ export async function main(ns) {
                     continue
                 }
 
-                if (!ns.hasRootAccess) {
-                    await breakPorts(servers[i]);
+                if (!ns.hasRootAccess(servers[i])) {
+                    if (programcount > 0) {
+                        await breakPorts(servers[i]);
+                    }
                     await ns.nuke(servers[i]);
                     ns.tprint("Nuked " + servers[i])
                 }
@@ -122,9 +124,9 @@ export async function main(ns) {
                 continue
             }
         }
-        //Sleep for 30min and run again
+        //Sleep for 10min and run again
         timesrunned += 1;
         ns.tprint("Runned " + timesrunned)
-        await ns.sleep(1800000)
+        await ns.sleep(600000)
     }
 }
