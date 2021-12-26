@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:59:34
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 09:46:32
+ * @Last Modified time: 2021-12-26 09:47:51
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
@@ -12,7 +12,7 @@ export async function main(ns) {
 
     while (true) {
         if (await ns.getServerSecurityLevel(target) > securityThresh) {
-            await weaken(target);
+            await ns.weaken(target);
         } else if (await ns.getServerMoneyAvailable(target) < moneyThresh) {
             await ns.grow(target);
         } else {
