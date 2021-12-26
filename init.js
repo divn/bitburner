@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 09:09:25
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 13:08:57
+ * @Last Modified time: 2021-12-26 16:43:06
  */
 let baseUrl = 'https://raw.githubusercontent.com/divn/bitburner/master/';
 

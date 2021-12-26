@@ -2,12 +2,12 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 13:16:00
+ * @Last Modified time: 2021-12-26 20:19:13
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
+    let timesrunned = 0;
     while (true) {
-        let timesrunned = 0;
         let servers = [];
         let serverlist = ["home"]
         let targetserver = ''
