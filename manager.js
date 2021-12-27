@@ -2,15 +2,21 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-27 21:50:50
+ * @Last Modified time: 2021-12-27 22:19:19
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
     let timesrunned = 0;
     let hackscript = ns.args[0]
 
-    if (ns.args[0] == false) {
-        ns.tprint("Usage: run manager.js 'name of hack.js'")
+    if (ns.args.length === 0) {
+        ns.tprint("Usage: run manager.js PATH_TO_HACK")
+        return
+    }
+
+    if (!ns.fileExists(hackscript)) {
+        ns.tprint("Hack script " + hackscript + " not found")
+        return
     }
 
     while (true) {
@@ -138,7 +144,6 @@ export async function main(ns) {
                 }
 
                 if (ns.isRunning(hackscript, servers[i])) {
-                    ns.tprint("Updating target running " + hackscript)
                     ns.kill(hackscript, servers[i])
                     ns.tprint("Updating target running " + hackscript)
                     await ns.scp(hackscript, servers[i]);
