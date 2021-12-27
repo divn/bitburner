@@ -2,11 +2,17 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-27 20:03:40
+ * @Last Modified time: 2021-12-27 21:50:50
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
     let timesrunned = 0;
+    let hackscript = ns.args[0]
+
+    if (ns.args[0] == false) {
+        ns.tprint("Usage: run manager.js 'name of hack.js'")
+    }
+
     while (true) {
         let servers = [];
         let serverlist = ["home"]
@@ -118,30 +124,30 @@ export async function main(ns) {
                 }
 
                 ram = await ns.getServerMaxRam(servers[i]);
-                cost = await ns.getScriptRam("hack.js", "home");
+                cost = await ns.getScriptRam(hackscript, "home");
                 threads = parseInt((ram - usedram) / cost)
 
                 if (threads <= 0) {
-                    ns.tprint("Not enough RAM to run hack.js on " + servers[i])
+                    ns.tprint("Not enough RAM to run " + hackscript + " on " + servers[i])
                     continue
                 }
 
-                if (ns.isRunning("hack.js", servers[i], targetserver)) {
+                if (ns.isRunning(hackscript, servers[i], targetserver)) {
                     ns.tprint("Hack already running with same args on " + servers[i])
                     continue
                 }
 
-                if (ns.isRunning("hack.js")) {
-                    ns.tprint("Updating target running hack.js")
-                    ns.scriptKill("hack.js", servers[i])
-                    ns.tprint("Updating target running hack.js")
-                    await ns.scp("hack.js", servers[i]);
-                    await ns.exec("hack.js", servers[i], threads, targetserver);
+                if (ns.isRunning(hackscript, servers[i])) {
+                    ns.tprint("Updating target running " + hackscript)
+                    ns.kill(hackscript, servers[i])
+                    ns.tprint("Updating target running " + hackscript)
+                    await ns.scp(hackscript, servers[i]);
+                    await ns.exec(hackscript, servers[i], threads, targetserver);
                 }
 
-                await ns.scp("hack.js", servers[i]);
-                await ns.exec("hack.js", servers[i], threads, targetserver);
-                ns.tprint("Running hack.js on " + servers[i] + " Target: " + targetserver)
+                await ns.scp(hackscript, servers[i]);
+                await ns.exec(hackscript, servers[i], threads, targetserver);
+                ns.tprint("Running " + hackscript + " on " + servers[i] + " Target: " + targetserver)
                 continue
             }
             else {
