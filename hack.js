@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:59:34
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 13:27:12
+ * @Last Modified time: 2021-12-26 22:58:50
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {

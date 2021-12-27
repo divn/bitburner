@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 22:40:22
+ * @Last Modified time: 2021-12-26 23:02:06
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
@@ -39,7 +39,6 @@ export async function main(ns) {
             let serverHackTime = ns.getHackTime(server);
             let serverScore = (100 - servervMinSec) * (servervMaxMoney * servervMaxMoney) * servervGrowthRate / serverHackTime / 1000000;
             if (targetserverscore < serverScore && ns.hasRootAccess(server)) {
-                ns.tprint('old best server ' + targetserver + " new best " + server)
                 targetserver = server
                 targetserverscore = serverScore
             }
@@ -142,7 +141,7 @@ export async function main(ns) {
                 continue
             }
             else {
-                ns.tprint('Skipped ' + servers[i] + ' Not enough hacking')
+                //ns.tprint('Skipped ' + servers[i] + ' Not enough hacking')
                 continue
             }
         }
