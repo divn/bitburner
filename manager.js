@@ -2,7 +2,7 @@
  * @Author: Juuso Takala
  * @Date:   2021-12-26 08:49:01
  * @Last Modified by:   Juuso Takala
- * @Last Modified time: 2021-12-26 23:02:06
+ * @Last Modified time: 2021-12-27 20:03:40
  */
 /** @param {import(".").NS } ns */
 export async function main(ns) {
@@ -69,23 +69,23 @@ export async function main(ns) {
 
         function breakPorts(hostname) {
             if (ns.fileExists("BruteSSH.exe", "home")) {
-                ns.tprint("Using BruteSSH.exe on" + hostname)
+                ns.tprint("Using BruteSSH.exe on " + hostname)
                 ns.brutessh(hostname);
             }
             if (ns.fileExists("FTPCrack.exe", "home")) {
-                ns.tprint("Using FTPCrack.exe on" + hostname)
+                ns.tprint("Using FTPCrack.exe on " + hostname)
                 ns.ftpcrack(hostname);
             }
             if (ns.fileExists("relaySMTP.exe", "home")) {
-                ns.tprint("Using relaySMTP.exe on" + hostname);
+                ns.tprint("Using relaySMTP.exe on " + hostname);
                 ns.relaysmtp(hostname);
             }
             if (ns.fileExists("HTTPWorm.exe", "home")) {
-                ns.tprint("Using HTTPWorm.exe on" + hostname)
+                ns.tprint("Using HTTPWorm.exe on " + hostname)
                 ns.httpworm(hostname);
             }
             if (ns.fileExists("SQLInject.exe", "home")) {
-                ns.tprint("Using SQLInject.exe" + hostname)
+                ns.tprint("Using SQLInject.exe " + hostname)
                 ns.sqlinject(hostname);
             }
         }
@@ -132,7 +132,11 @@ export async function main(ns) {
                 }
 
                 if (ns.isRunning("hack.js")) {
+                    ns.tprint("Updating target running hack.js")
                     ns.scriptKill("hack.js", servers[i])
+                    ns.tprint("Updating target running hack.js")
+                    await ns.scp("hack.js", servers[i]);
+                    await ns.exec("hack.js", servers[i], threads, targetserver);
                 }
 
                 await ns.scp("hack.js", servers[i]);
